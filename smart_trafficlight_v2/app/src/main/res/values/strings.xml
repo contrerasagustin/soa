@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Smart Trafficlight</string>
+    <string name="strcontent">Imagen</string>
+    <string name="strdesc">Desconectar</string>
+    <string name="strescr">Escriba un texto</string>
+
+</resources>
