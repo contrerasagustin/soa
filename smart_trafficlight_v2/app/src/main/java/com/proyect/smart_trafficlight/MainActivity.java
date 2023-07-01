@@ -56,11 +56,11 @@ public class MainActivity extends AppCompatActivity {
                 if (msg.what == handlerState) {
                     char MyCar = (char) msg.obj;
 
-                    if (MyCar == 'V') {
+                    if (MyCar == 'S') {
                         tvtMsg.setText("VERDE");
                     }
 
-                    if (MyCar == 'R') {
+                    if (MyCar == 'N') {
                         tvtMsg.setText("ROJO");
                     }
                 }

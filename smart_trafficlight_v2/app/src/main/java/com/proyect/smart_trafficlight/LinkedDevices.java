@@ -32,14 +32,29 @@ public class LinkedDevices extends AppCompatActivity {
     public static String EXTRA_DEVICE_ADDRESS = "device_address";
     private BluetoothAdapter mBtAdapter;
     private ArrayAdapter mPairedDevicesArrayAdapter;
-    private static final int REQUEST_ENABLE_BLUETOOTH = 1;
+  //  private static final int REQUEST_ENABLE_BLUETOOTH = 1;
+    public static final int MULTIPLE_PERMISSIONS = 10; // code you want.
+
+
+
+    String[] permissions= new String[]{
+            Manifest.permission.BLUETOOTH,
+            Manifest.permission.BLUETOOTH_ADMIN,
+            Manifest.permission.BLUETOOTH_CONNECT,
+            Manifest.permission.BLUETOOTH_SCAN,
+            Manifest.permission.ACCESS_COARSE_LOCATION,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.READ_PHONE_STATE,
+            Manifest.permission.READ_EXTERNAL_STORAGE};
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_linked_devices);
 
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH)
+      /*  if (ContextCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH)
                 == PackageManager.PERMISSION_GRANTED) {
             // El permiso de Bluetooth ya está concedido, puedes realizar las operaciones necesarias
         } else {
@@ -47,7 +62,9 @@ public class LinkedDevices extends AppCompatActivity {
             ActivityCompat.requestPermissions(this,
                     new String[]{Manifest.permission.BLUETOOTH},
                     REQUEST_ENABLE_BLUETOOTH);
-        }
+        }*/
+        checkPermissions();
+
     }
 
     @Override
@@ -102,14 +119,43 @@ public class LinkedDevices extends AppCompatActivity {
         }
     }
 
+    //Metodo que chequea si estan habilitados los permisos
+    private  boolean checkPermissions() {
+        int result;
+        List<String> listPermissionsNeeded = new ArrayList<>();
+
+        //Se chequea si la version de Android es menor a la 6
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+            return true;
+        }
+
+
+        for (String p:permissions) {
+            result = ContextCompat.checkSelfPermission(this,p);
+            if (result != PackageManager.PERMISSION_GRANTED) {
+                listPermissionsNeeded.add(p);
+            }
+        }
+        if (!listPermissionsNeeded.isEmpty()) {
+            ActivityCompat.requestPermissions(this, listPermissionsNeeded.toArray(new String[listPermissionsNeeded.size()]),MULTIPLE_PERMISSIONS );
+            return false;
+        }
+        return true;
+    }
+
+
+
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == REQUEST_ENABLE_BLUETOOTH) {
+        if (requestCode == MULTIPLE_PERMISSIONS) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                System.out.println("Otorgado");
+                Toast.makeText(this,"Permisos Otorgados", Toast.LENGTH_LONG).show();
             } else {
-                System.out.println("No otorgado");
+                // permissions list of don't granted permission
+                Toast.makeText(this,"ATENCION: La aplicacion no funcionara " +
+                        "correctamente debido a la falta de Permisos", Toast.LENGTH_LONG).show();
+
             }
         }
     }
