@@ -1,13 +1,16 @@
 package com.proyect.smart_trafficlight;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import android.Manifest;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -31,6 +34,8 @@ public class LinkedDevices extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_linked_devices);
+
+        requestBluetoothPermission();
     }
 
     @Override
@@ -84,4 +89,36 @@ public class LinkedDevices extends AppCompatActivity {
             }
         }
     }
+
+    private boolean hasBluetoothPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            int permissionResult = ContextCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT);
+            return permissionResult == PackageManager.PERMISSION_GRANTED;
+        }
+        return true; // Si la versión de Android es anterior a Marshmallow, se considera que tienes el permiso.
+    }
+
+    private static final int REQUEST_BLUETOOTH_PERMISSION = 1;
+
+    private void requestBluetoothPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (!hasBluetoothPermission()) {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.BLUETOOTH_CONNECT}, REQUEST_BLUETOOTH_PERMISSION);
+            }
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if (requestCode == REQUEST_BLUETOOTH_PERMISSION) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // El usuario ha otorgado el permiso de Bluetooth. Puedes realizar las acciones que necesites.
+            } else {
+                    // El usuario ha denegado el permiso de Bluetooth. Puedes mostrar un mensaje o tomar otras acciones.
+            }
+        }
+    }
+
 }
