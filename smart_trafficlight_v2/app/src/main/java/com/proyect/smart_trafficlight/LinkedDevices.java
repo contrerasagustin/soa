@@ -9,6 +9,7 @@ import android.Manifest;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -20,6 +21,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 public class LinkedDevices extends AppCompatActivity {
@@ -29,13 +32,22 @@ public class LinkedDevices extends AppCompatActivity {
     public static String EXTRA_DEVICE_ADDRESS = "device_address";
     private BluetoothAdapter mBtAdapter;
     private ArrayAdapter mPairedDevicesArrayAdapter;
+    private static final int REQUEST_ENABLE_BLUETOOTH = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_linked_devices);
 
-        requestBluetoothPermission();
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH)
+                == PackageManager.PERMISSION_GRANTED) {
+            // El permiso de Bluetooth ya está concedido, puedes realizar las operaciones necesarias
+        } else {
+            // El permiso de Bluetooth no está concedido, solicítalo al usuario
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.BLUETOOTH},
+                    REQUEST_ENABLE_BLUETOOTH);
+        }
     }
 
     @Override
@@ -90,35 +102,15 @@ public class LinkedDevices extends AppCompatActivity {
         }
     }
 
-    private boolean hasBluetoothPermission() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            int permissionResult = ContextCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT);
-            return permissionResult == PackageManager.PERMISSION_GRANTED;
-        }
-        return true; // Si la versión de Android es anterior a Marshmallow, se considera que tienes el permiso.
-    }
-
-    private static final int REQUEST_BLUETOOTH_PERMISSION = 1;
-
-    private void requestBluetoothPermission() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (!hasBluetoothPermission()) {
-                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.BLUETOOTH_CONNECT}, REQUEST_BLUETOOTH_PERMISSION);
-            }
-        }
-    }
-
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-
-        if (requestCode == REQUEST_BLUETOOTH_PERMISSION) {
+        if (requestCode == REQUEST_ENABLE_BLUETOOTH) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // El usuario ha otorgado el permiso de Bluetooth. Puedes realizar las acciones que necesites.
+                System.out.println("Otorgado");
             } else {
-                    // El usuario ha denegado el permiso de Bluetooth. Puedes mostrar un mensaje o tomar otras acciones.
+                System.out.println("No otorgado");
             }
         }
     }
-
 }
