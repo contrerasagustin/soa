@@ -14,7 +14,7 @@
         android:layout_height="834dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.558"
+        app:layout_constraintHorizontal_bias="0.553"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0"
@@ -22,7 +22,7 @@
 
     <LinearLayout
         android:id="@+id/Title"
-        android:layout_width="wrap_content"
+        android:layout_width="291dp"
         android:layout_height="93dp"
         android:gravity="bottom|center"
         android:orientation="horizontal"
@@ -30,7 +30,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.087">
+        app:layout_constraintVertical_bias="0.07999998">
 
         <TextView
             android:id="@+id/TitleG"
@@ -72,55 +72,54 @@
     </LinearLayout>
 
     <Button
-        android:id="@+id/GoToLights"
-        android:layout_width="300dp"
-        android:layout_height="80dp"
-        android:backgroundTint="#FFEB3B"
-        android:fontFamily="sans-serif-medium"
-        android:text="Ver semáforos"
+        android:id="@+id/btnEnableSmartMode"
+        android:layout_width="252dp"
+        android:layout_height="67dp"
+        android:backgroundTint="#FFFFFF"
+        android:fontFamily="sans-serif-condensed-medium"
+        android:text="Activar modo inteligente"
         android:textColor="#000000"
-        android:textSize="25dp"
+        android:textSize="20dp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.5" />
+        app:layout_constraintVertical_bias="0.337" />
 
     <Button
-        android:id="@+id/ConnectLight"
-        android:layout_width="300dp"
-        android:layout_height="80dp"
-        android:backgroundTint="#4CAF50"
-        android:fontFamily="sans-serif-medium"
-        android:text="Conectar al semáforo"
+        android:id="@+id/btnDisableSmartMode"
+        android:layout_width="252dp"
+        android:layout_height="66dp"
+        android:backgroundTint="#F4F4F4"
+        android:fontFamily="sans-serif-condensed"
+        android:text="Desactivar inteligencia"
         android:textColor="#000000"
-        android:textSize="25dp"
+        android:textSize="20dp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.55"
+        app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.35" />
+        app:layout_constraintVertical_bias="0.533" />
 
     <Button
-        android:id="@+id/ControlLight"
+        android:id="@+id/BackMenu"
         android:layout_width="300dp"
         android:layout_height="80dp"
-        android:backgroundTint="#F44336"
+        android:backgroundTint="#C44CAF50"
         android:fontFamily="sans-serif-medium"
-        android:text="Controlar semáforos"
+        android:text="Volver al menú"
         android:textColor="#000000"
         android:textSize="25dp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.65" />
-
+        app:layout_constraintVertical_bias="0.975" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
