@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/Main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#9F07050C"
+    tools:context=".MainActivity">
+
+    <ImageView
+        android:id="@+id/background"
+        android:layout_width="617dp"
+        android:layout_height="834dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.553"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@drawable/background" />
+
+    <LinearLayout
+        android:id="@+id/Title"
+        android:layout_width="wrap_content"
+        android:layout_height="93dp"
+        android:gravity="bottom|center"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.07999998">
+
+        <TextView
+            android:id="@+id/TitleG"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_marginTop="52dp"
+            android:fontFamily="sans-serif-condensed-medium"
+            android:shadowColor="#393838"
+            android:text="Smart"
+            android:textAlignment="center"
+            android:textColor="#4CAF50"
+            android:textSize="40sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/TitleY"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_marginTop="52dp"
+            android:fontFamily="sans-serif-condensed-medium"
+            android:text="Traffic"
+            android:textAlignment="center"
+            android:textColor="#FFEB3B"
+            android:textSize="40sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/TitleR"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_marginTop="52dp"
+            android:fontFamily="sans-serif-condensed-medium"
+            android:text="Light"
+            android:textAlignment="center"
+            android:textColor="#F44336"
+            android:textSize="40sp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/trafficLight_A"
+        android:layout_width="79dp"
+        android:layout_height="152dp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.18"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.26"
+        app:srcCompat="@drawable/green" />
+
+    <ImageView
+        android:id="@+id/trafficLight_B"
+        android:layout_width="79dp"
+        android:layout_height="152dp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.82"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.26"
+        app:srcCompat="@drawable/red" />
+
+    <Button
+        android:id="@+id/BackMenu"
+        android:layout_width="300dp"
+        android:layout_height="80dp"
+        android:backgroundTint="#4CAF50"
+        android:fontFamily="sans-serif-medium"
+        android:text="Volver al menú"
+        android:textColor="#000000"
+        android:textSize="25dp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.97" />
+
+    <TextView
+        android:id="@+id/LightA"
+        android:layout_width="165dp"
+        android:layout_height="50dp"
+        android:fontFamily="sans-serif-condensed-medium"
+        android:shadowColor="#393838"
+        android:text="Semáforo A"
+        android:textAlignment="center"
+        android:textColor="#91CBFA"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.05"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.433" />
+
+    <TextView
+        android:id="@+id/lightB"
+        android:layout_width="165dp"
+        android:layout_height="50dp"
+        android:fontFamily="sans-serif-condensed-medium"
+        android:shadowColor="#393838"
+        android:text="Semáforo B"
+        android:textAlignment="center"
+        android:textColor="#91CBFA"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.95"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.433" />
+
+    <TextView
+        android:id="@+id/sensorA"
+        android:layout_width="250dp"
+        android:layout_height="50dp"
+        android:fontFamily="sans-serif-condensed-medium"
+        android:shadowColor="#393838"
+        android:text="Hay autos en A"
+        android:textAlignment="center"
+        android:textColor="#FFEB3B"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.05"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.731" />
+
+    <TextView
+        android:id="@+id/statusSensorA"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:fontFamily="sans-serif-condensed-medium"
+        android:shadowColor="#393838"
+        android:text="SI"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.9"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.731" />
+
+    <TextView
+        android:id="@+id/SensorB"
+        android:layout_width="250dp"
+        android:layout_height="50dp"
+        android:fontFamily="sans-serif-condensed-medium"
+        android:shadowColor="#393838"
+        android:text="Hay autos en B"
+        android:textAlignment="center"
+        android:textColor="#FFEB3B"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.05"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.832" />
+
+    <TextView
+        android:id="@+id/statusSensorB"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:fontFamily="sans-serif-condensed-medium"
+        android:shadowColor="#393838"
+        android:text="NO"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.9"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.832" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
