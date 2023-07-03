@@ -1,5 +1,7 @@
 package com.proyect.smart_trafficlight;
 
+import static com.proyect.smart_trafficlight.LinkedDevices.EXTRA_DEVICE_ADDRESS;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
@@ -28,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
 
     EditText edtTextOut;
     ImageButton btnSend,btnSendDefault;
-    Button btnDisconnect,enableSmartButton,disableSmartButton;
+    Button btnDisconnect,enableSmartButton,disableSmartButton,viewSemaphores,backMenu;
     TextView tvtMsg;
 
     //-------------------------------------------
@@ -70,14 +72,23 @@ public class MainActivity extends AppCompatActivity {
         btAdapter = BluetoothAdapter.getDefaultAdapter();
         verifyStateBT();
 
-        edtTextOut = findViewById(R.id.edtTextOut);
+/*        edtTextOut = findViewById(R.id.edtTextOut);
         btnSend = findViewById(R.id.btnSend);
         btnSendDefault = findViewById(R.id.btnSendDefault);
-        btnDisconnect = findViewById(R.id.btnDisconnect);
+        btnDisconnect = findViewById(R.id.btnDisconnect);*/
         tvtMsg = findViewById(R.id.tvtMsg);
         enableSmartButton = findViewById(R.id.btnEnableSmartMode);
         disableSmartButton = findViewById(R.id.btnDisableSmartMode);
+        viewSemaphores= findViewById(R.id.GoToLights);
 
+        viewSemaphores.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, LightActivity.class);
+                intent.putExtra(EXTRA_DEVICE_ADDRESS, address);
+                startActivity(intent);
+            }
+        });
 
         enableSmartButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -95,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-        btnSend.setOnClickListener(new View.OnClickListener() {
+        /*btnSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String getData = edtTextOut.getText().toString();
@@ -124,7 +135,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 finish();
             }
-        });
+        });*/
     }
 
     private BluetoothSocket createBluetoothSocket(BluetoothDevice device) throws IOException {
@@ -139,7 +150,7 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
 
         Intent intent = getIntent();
-        address = intent.getStringExtra(LinkedDevices.EXTRA_DEVICE_ADDRESS);
+        address = intent.getStringExtra(EXTRA_DEVICE_ADDRESS);
         //Setea la direccion MAC
         BluetoothDevice device = btAdapter.getRemoteDevice(address);
 
