@@ -14,6 +14,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -32,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
     ImageButton btnSend,btnSendDefault;
     Button btnDisconnect,enableSmartButton,disableSmartButton,viewSemaphores,backMenu;
     TextView tvtMsg;
+    private StringBuilder recDataString = new StringBuilder();
 
     //-------------------------------------------
     Handler bluetoothIn;
@@ -55,16 +57,53 @@ public class MainActivity extends AppCompatActivity {
         //noinspection deprecation
         bluetoothIn = new Handler() {
             public void handleMessage(android.os.Message msg) {
-                if (msg.what == handlerState) {
-                    char MyCar = (char) msg.obj;
 
-                    if (MyCar == 'S') {
+                String TAG = "handlerState";
+                if (msg.what == handlerState) {
+                    /*char MyCar = (char) msg.obj;
+                    if (MyCar == 'V') {
                         tvtMsg.setText("VERDE");
                     }
 
-                    if (MyCar == 'N') {
+                    if (MyCar == 'R') {
                         tvtMsg.setText("ROJO");
+                    }*/
+
+                    String readMessage = (String) msg.obj;
+                    recDataString.append(readMessage);
+                    int endOfLineIndex = recDataString.indexOf("~");
+                    Log.i(TAG,readMessage);
+                    //cuando recibo toda una linea la muestro en el layout
+                    if (endOfLineIndex > 0)
+                    {
+                        String dataInPrint = recDataString.substring(0, endOfLineIndex);
+                        //tvtMsg.setText(readMessage);
+
+                        if (dataInPrint.equals("V")) {
+                            tvtMsg.setText("VERDE");
+                        }
+
+                        if (dataInPrint.equals("R")) {
+                            tvtMsg.setText("ROJO");
+                        }
+
+
+                        //recDataString.delete(0, recDataString.length());
+                        dataInPrint = " ";
                     }
+                    recDataString.delete(0, recDataString.length());      //clear all string data
+
+
+
+                    /*if (readMessage == "V") {
+                        tvtMsg.setText("VERDE");
+                    }
+
+                    if (readMessage == "R") {
+                        tvtMsg.setText("ROJO");
+                    }*/
+
+
                 }
             }
         };
@@ -243,13 +282,25 @@ public class MainActivity extends AppCompatActivity {
 
         public void run()
         {
-            byte[] byte_in = new byte[1];
+            //byte[] byte_in = new byte[1];
+            byte[] buffer = new byte[256];
+            int bytes;
             // Se mantiene en modo escucha para determinar el ingreso de datos
             while (true) {
                 try {
-                    mmInStream.read(byte_in);
+                    /*mmInStream.read(byte_in);
                     char ch = (char) byte_in[0];
-                    bluetoothIn.obtainMessage(handlerState, ch).sendToTarget();
+                    bluetoothIn.obtainMessage(handlerState, ch).sendToTarget();*/
+
+                    //se leen los datos del Bluethoot
+                    bytes = mmInStream.read(buffer);
+                    String readMessage = new String(buffer, 0, bytes);
+
+                    //se muestran en el layout de la activity, utilizando el handler del hilo
+                    // principal antes mencionado
+                    bluetoothIn.obtainMessage(handlerState, bytes, -1, readMessage).sendToTarget();
+
+
                 } catch (IOException e) {
                     break;
                 }
