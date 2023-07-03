@@ -70,10 +70,10 @@ public class MainActivity extends AppCompatActivity {
         btAdapter = BluetoothAdapter.getDefaultAdapter();
         verifyStateBT();
 
-        edtTextOut = findViewById(R.id.edtTextOut);
+/*        edtTextOut = findViewById(R.id.edtTextOut);
         btnSend = findViewById(R.id.btnSend);
         btnSendDefault = findViewById(R.id.btnSendDefault);
-        btnDisconnect = findViewById(R.id.btnDisconnect);
+        btnDisconnect = findViewById(R.id.btnDisconnect);*/
         tvtMsg = findViewById(R.id.tvtMsg);
         enableSmartButton = findViewById(R.id.btnEnableSmartMode);
         disableSmartButton = findViewById(R.id.btnDisableSmartMode);
@@ -95,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-        btnSend.setOnClickListener(new View.OnClickListener() {
+        /*btnSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String getData = edtTextOut.getText().toString();
@@ -124,7 +124,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 finish();
             }
-        });
+        });*/
     }
 
     private BluetoothSocket createBluetoothSocket(BluetoothDevice device) throws IOException {
