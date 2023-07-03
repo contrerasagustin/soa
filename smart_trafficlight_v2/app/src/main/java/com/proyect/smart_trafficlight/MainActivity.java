@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
 
     EditText edtTextOut;
     ImageButton btnSend,btnSendDefault;
-    Button btnDisconnect;
+    Button btnDisconnect,enableSmartButton,disableSmartButton;
     TextView tvtMsg;
 
     //-------------------------------------------
@@ -75,7 +75,26 @@ public class MainActivity extends AppCompatActivity {
         btnSendDefault = findViewById(R.id.btnSendDefault);
         btnDisconnect = findViewById(R.id.btnDisconnect);
         tvtMsg = findViewById(R.id.tvtMsg);
+        enableSmartButton = findViewById(R.id.btnEnableSmartMode);
+        disableSmartButton = findViewById(R.id.btnDisableSmartMode);
 
+
+        enableSmartButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                MyConexionBT.write("S");
+            }
+        });
+
+        disableSmartButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                MyConexionBT.write("N");
+
+            }
+        });
         btnSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

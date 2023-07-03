@@ -2,9 +2,129 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/Main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#9F07050C"
     tools:context=".MainActivity">
+
+    <ImageView
+        android:id="@+id/background"
+        android:layout_width="617dp"
+        android:layout_height="834dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.558"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@drawable/background" />
+
+    <LinearLayout
+        android:id="@+id/Title"
+        android:layout_width="wrap_content"
+        android:layout_height="93dp"
+        android:gravity="bottom|center"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.087">
+
+        <TextView
+            android:id="@+id/TitleG"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_marginTop="52dp"
+            android:fontFamily="sans-serif-condensed-medium"
+            android:shadowColor="#393838"
+            android:text="Smart"
+            android:textAlignment="center"
+            android:textColor="#4CAF50"
+            android:textSize="40sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/TitleY"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_marginTop="52dp"
+            android:fontFamily="sans-serif-condensed-medium"
+            android:text="Traffic"
+            android:textAlignment="center"
+            android:textColor="#FFEB3B"
+            android:textSize="40sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/TitleR"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_marginTop="52dp"
+            android:fontFamily="sans-serif-condensed-medium"
+            android:text="Light"
+            android:textAlignment="center"
+            android:textColor="#F44336"
+            android:textSize="40sp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btnEnableSmartMode"
+        android:layout_width="252dp"
+        android:layout_height="67dp"
+        android:backgroundTint="#FFFFFF"
+        android:fontFamily="sans-serif-condensed-medium"
+        android:text="Activar modo inteligente"
+        android:textColor="#000000"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.337" />
+
+    <Button
+        android:id="@+id/btnDisableSmartMode"
+        android:layout_width="252dp"
+        android:layout_height="66dp"
+        android:backgroundTint="#F4F4F4"
+        android:fontFamily="sans-serif-condensed"
+        android:text="Desactivar inteligencia"
+        android:textColor="#000000"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.533" />
+
+
+    <!--  Codigo de prueba -->
+
+
+    <Button
+        android:id="@+id/GoToLights"
+        android:layout_width="252dp"
+        android:layout_height="66dp"
+        android:backgroundTint="#F4F4F4"
+        android:fontFamily="sans-serif-condensed"
+        android:text="Ver semáforos"
+        android:textColor="#000000"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.709" />
 
     <Button
         android:id="@+id/btnDisconnect"
@@ -13,7 +133,9 @@
         android:text="@string/strdesc"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        tools:visibility="gone" />
+
 
     <TextView
         android:id="@+id/tvtMsg"
@@ -22,7 +144,8 @@
         app:layout_constraintBottom_toTopOf="@+id/btnDisconnect"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        tools:visibility="gone" />
 
     <EditText
         android:id="@+id/edtTextOut"
@@ -35,7 +158,8 @@
         app:layout_constraintEnd_toStartOf="@+id/btnSend"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/btnSend"
-        tools:ignore="SpeakableTextPresentCheck" />
+        tools:ignore="SpeakableTextPresentCheck"
+        tools:visibility="gone" />
 
     <ImageButton
         android:id="@+id/btnSend"
@@ -47,7 +171,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_launcher_background"
-        tools:ignore="SpeakableTextPresentCheck,ImageContrastCheck" />
+        tools:ignore="SpeakableTextPresentCheck,ImageContrastCheck"
+        tools:visibility="gone" />
 
     <ImageButton
         android:id="@+id/btnSendDefault"
@@ -60,6 +185,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_launcher_foreground"
-        tools:ignore="SpeakableTextPresentCheck" />
+        tools:ignore="SpeakableTextPresentCheck"
+        tools:visibility="gone" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
