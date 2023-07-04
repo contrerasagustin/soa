@@ -10,6 +10,7 @@ import android.annotation.SuppressLint;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -21,17 +22,21 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.UUID;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements SensorEventListener{
 
     EditText edtTextOut;
     ImageButton btnSend,btnSendDefault;
-    Button btnDisconnect,enableSmartButton,disableSmartButton,viewSemaphores,backMenu;
+    Button btnDisconnect,enableSmartButton,disableSmartButton,viewSemaphores,backMenu,btnCancel;
     TextView tvtMsg;
     private StringBuilder recDataString = new StringBuilder();
 
@@ -46,13 +51,23 @@ public class MainActivity extends AppCompatActivity {
     private static final UUID BTMODULEUUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
     // String para la direccion MAC
     private static String address = null;
+    private SensorManager sensorManager;
+    private Sensor accelerometer;
+    private float accelerationThreshold = 30.0f;
     //-------------------------------------------
 
+    private int mode;
 
-    @Override @SuppressLint("HandlerLeak")
+    public static final int ENABLE_SMART_MODE = 1;
+    public static final int DISABLE_SMART_MODE = 2;
+
+    @Override
+    @SuppressLint({"HandlerLeak", "MissingInflatedId"})
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 
         //noinspection deprecation
         bluetoothIn = new Handler() {
@@ -80,11 +95,11 @@ public class MainActivity extends AppCompatActivity {
                         //tvtMsg.setText(readMessage);
 
                         if (dataInPrint.equals("V")) {
-                            tvtMsg.setText("VERDE");
+                            //tvtMsg.setText("VERDE");
                         }
 
                         if (dataInPrint.equals("R")) {
-                            tvtMsg.setText("ROJO");
+                            //tvtMsg.setText("ROJO");
                         }
 
 
@@ -115,10 +130,22 @@ public class MainActivity extends AppCompatActivity {
         btnSend = findViewById(R.id.btnSend);
         btnSendDefault = findViewById(R.id.btnSendDefault);
         btnDisconnect = findViewById(R.id.btnDisconnect);*/
-        tvtMsg = findViewById(R.id.tvtMsg);
+        //tvtMsg = findViewById(R.id.tvtMsg);
         enableSmartButton = findViewById(R.id.btnEnableSmartMode);
         disableSmartButton = findViewById(R.id.btnDisableSmartMode);
         viewSemaphores= findViewById(R.id.GoToLights);
+        btnCancel = findViewById(R.id.btnCancelar);
+        btnCancel.setVisibility(View.INVISIBLE);
+
+        btnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                enableSmartButton.setVisibility(View.VISIBLE);
+                disableSmartButton.setVisibility(View.VISIBLE);
+                viewSemaphores.setVisibility(View.VISIBLE);
+                btnCancel.setVisibility(View.INVISIBLE);
+            }
+        });
 
         viewSemaphores.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -133,7 +160,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                MyConexionBT.write("S");
+                enableSmartButton.setVisibility(View.INVISIBLE);
+                disableSmartButton.setVisibility(View.INVISIBLE);
+                viewSemaphores.setVisibility(View.INVISIBLE);
+                btnCancel.setVisibility(View.VISIBLE);
+                mode=ENABLE_SMART_MODE;
+                //MyConexionBT.write("S");
+
             }
         });
 
@@ -141,7 +174,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                MyConexionBT.write("N");
+                //MyConexionBT.write("N");
 
             }
         });
@@ -193,6 +226,8 @@ public class MainActivity extends AppCompatActivity {
         //Setea la direccion MAC
         BluetoothDevice device = btAdapter.getRemoteDevice(address);
 
+        sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
+
         try {
             btSocket = createBluetoothSocket(device);
         } catch (IOException e) {
@@ -228,6 +263,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onPause() {
         super.onPause();
+        sensorManager.unregisterListener(this);
         try { // Cuando se sale de la aplicación esta parte permite que no se deje abierto el socket
             btSocket.close();
         } catch (IOException e2) {
@@ -259,6 +295,33 @@ public class MainActivity extends AppCompatActivity {
 
             }
         }
+    }
+
+    @Override
+    public void onSensorChanged(SensorEvent event) {
+        if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
+            float x = event.values[0];
+            float y = event.values[1];
+            float z = event.values[2];
+
+            // Calcular la aceleración total
+            double acceleration = Math.sqrt(x * x + y * y + z * z);
+
+            // Comprobar si se ha detectado un shake basado en el umbral de sacudida
+            if (acceleration > accelerationThreshold) {
+                if(mode == ENABLE_SMART_MODE){
+                    MyConexionBT.write("S");
+                }
+                if(mode == DISABLE_SMART_MODE){
+                    MyConexionBT.write("N");
+                }
+            }
+        }
+    }
+
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int i) {
+//nati
     }
 
     //Crea la clase que permite crear el evento de conexion
