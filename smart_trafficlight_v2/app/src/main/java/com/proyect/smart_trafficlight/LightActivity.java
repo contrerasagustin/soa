@@ -63,12 +63,16 @@ public class LightActivity extends AppCompatActivity {
                        // tvtMsg.setText("VERDE");
                         statusSensorA.setText("SI");
                         statusSensorB.setText("NO");
+                        trafficLight_A.setImageResource(lights.get("V"));
+                        trafficLight_B.setImageResource(lights.get("R"));
                     }
 
                     if (MyCar == 'R') {
                         //tvtMsg.setText("ROJO");
                         statusSensorA.setText("NO");
                         statusSensorB.setText("SI");
+                        trafficLight_A.setImageResource(lights.get("R"));
+                        trafficLight_B.setImageResource(lights.get("V"));
                     }
                 }
             }
