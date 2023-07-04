@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     EditText edtTextOut;
     ImageButton btnSend,btnSendDefault;
     Button btnDisconnect,enableSmartButton,disableSmartButton,viewSemaphores,backMenu,btnCancel;
-    TextView tvtMsg;
+    TextView inst;
     private StringBuilder recDataString = new StringBuilder();
 
     //-------------------------------------------
@@ -60,6 +60,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
     public static final int ENABLE_SMART_MODE = 1;
     public static final int DISABLE_SMART_MODE = 2;
+    public static final int NO_SHAKE = 3;
 
     @Override
     @SuppressLint({"HandlerLeak", "MissingInflatedId"})
@@ -130,12 +131,14 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         btnSend = findViewById(R.id.btnSend);
         btnSendDefault = findViewById(R.id.btnSendDefault);
         btnDisconnect = findViewById(R.id.btnDisconnect);*/
-        //tvtMsg = findViewById(R.id.tvtMsg);
+        inst = findViewById(R.id.Instruc);
         enableSmartButton = findViewById(R.id.btnEnableSmartMode);
         disableSmartButton = findViewById(R.id.btnDisableSmartMode);
         viewSemaphores= findViewById(R.id.GoToLights);
         btnCancel = findViewById(R.id.btnCancelar);
         btnCancel.setVisibility(View.INVISIBLE);
+        inst.setVisibility(View.INVISIBLE);
+        mode=NO_SHAKE;
 
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -144,6 +147,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 disableSmartButton.setVisibility(View.VISIBLE);
                 viewSemaphores.setVisibility(View.VISIBLE);
                 btnCancel.setVisibility(View.INVISIBLE);
+                inst.setVisibility(View.INVISIBLE);
+
+                mode=NO_SHAKE;
             }
         });
 
@@ -164,6 +170,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 disableSmartButton.setVisibility(View.INVISIBLE);
                 viewSemaphores.setVisibility(View.INVISIBLE);
                 btnCancel.setVisibility(View.VISIBLE);
+                inst.setVisibility(View.VISIBLE);
                 mode=ENABLE_SMART_MODE;
                 //MyConexionBT.write("S");
 
@@ -174,6 +181,12 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             @Override
             public void onClick(View v) {
 
+                enableSmartButton.setVisibility(View.INVISIBLE);
+                disableSmartButton.setVisibility(View.INVISIBLE);
+                viewSemaphores.setVisibility(View.INVISIBLE);
+                btnCancel.setVisibility(View.VISIBLE);
+                inst.setVisibility(View.VISIBLE);
+                mode=DISABLE_SMART_MODE;
                 //MyConexionBT.write("N");
 
             }

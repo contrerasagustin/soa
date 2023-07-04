@@ -144,5 +144,20 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.97" />
 
+    <TextView
+        android:id="@+id/Instruc"
+        android:layout_width="400dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="296dp"
+        android:fontFamily="sans-serif-condensed-medium"
+        android:text="Agitar el dispositivo para activar"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
