@@ -2,13 +2,9 @@
 #define TIME_TO_REAL_SEM 15000
 #define TIME_TO_SENSOR_HIGH 10
 #define TIME_TO_SENSOR_LOW 2
-//#define TIME_TO_REACTIVE 9000
-#define TIME_TO_REACTIVE 12000
-// #define TIME_CHANGE_FIRST_YELLOW 3000
-//#define TIME_CHANGE_SECOND_YELLOW 6000 
-#define TIME_CHANGE_FIRST_YELLOW 6000
-#define TIME_CHANGE_SECOND_YELLOW 9000
-#define TIME_TO_START_TO_CHANGE 3000
+#define TIME_TO_REACTIVE 15000
+#define TIME_CHANGE_FIRST_YELLOW 5000
+#define TIME_CHANGE_SECOND_YELLOW 10000
 
 //distancias
 #define DISTANCE_TO_ACTIVE_SENSOR_MAX 200
@@ -31,7 +27,6 @@
 #define STANDBY 3
 #define CHANGE_FIRST_YELLOW 4
 #define CHANGE_SECOND_YELLOW 5
-#define CHANGE_TO_START_TO_CHANGE 8
 #define SMART_SEM_OFF 6
 #define SMART_SEM_ON 7
 
@@ -45,6 +40,7 @@
 #define MAX_POTENTIOMETER 1023
 #define NO_MSG 0;
 int state;
+int past_state;
 int event;
 
 //luces del semaforo
@@ -90,6 +86,7 @@ SoftwareSerial BT(rxd, txd);
 void setup()
 {
   state = INIT;
+  past_state = INIT;
   is_button_a_pressed = INACTIVE;
   is_button_b_pressed = INACTIVE;
   standard_sem = INACTIVE;
@@ -370,34 +367,30 @@ int get_potentiometer()
 
 int rx_bluetooth()
 {
-
-  if(state == SEM_A_GREEN){
-    BT.write("V~");
-  }
-  else
+  if(past_state != state)
   {
-    if(state == SEM_B_GREEN){
-        .write("R~");
+    if(state == SEM_A_GREEN)
+    {
+      BT.write("V~");
+      past_state=state;
     }
-  } 
-
+    if(state == SEM_B_GREEN)
+    {
+      BT.write("R~");
+      past_state=state;
+    }
+  }
   if (BT.available()>0)
   {
     char dato=BT.read();
     if(dato == 'S')
     {
-      Serial.println("Recibi S");
       return SMART_SEM_ON;
-
     }
     if(dato == 'N')
     {
-      Serial.println("Recibi N");
       return SMART_SEM_OFF;
-
-      //BT.write("Me llego la N");
     }
   }
-
   return NO_MSG;
 }
