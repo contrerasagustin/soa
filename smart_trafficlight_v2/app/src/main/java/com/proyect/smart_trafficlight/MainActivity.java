@@ -32,11 +32,12 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.UUID;
 
-public class MainActivity extends AppCompatActivity implements SensorEventListener{
+public class MainActivity extends AppCompatActivity implements SensorEventListener
+{
 
     EditText edtTextOut;
-    ImageButton btnSend,btnSendDefault;
-    Button btnDisconnect,enableSmartButton,disableSmartButton,viewSemaphores,backMenu,btnCancel;
+    ImageButton btnSend, btnSendDefault;
+    Button btnDisconnect, enableSmartButton, disableSmartButton, viewSemaphores, backMenu, btnCancel;
     TextView inst;
     private StringBuilder recDataString = new StringBuilder();
 
@@ -64,61 +65,35 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
     @Override
     @SuppressLint({"HandlerLeak", "MissingInflatedId"})
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 
         //noinspection deprecation
-        bluetoothIn = new Handler() {
-            public void handleMessage(android.os.Message msg) {
+        bluetoothIn = new Handler()
+        {
+            public void handleMessage(android.os.Message msg)
+            {
 
                 String TAG = "handlerState";
-                if (msg.what == handlerState) {
-                    /*char MyCar = (char) msg.obj;
-                    if (MyCar == 'V') {
-                        tvtMsg.setText("VERDE");
-                    }
-
-                    if (MyCar == 'R') {
-                        tvtMsg.setText("ROJO");
-                    }*/
+                if (msg.what == handlerState)
+                {
 
                     String readMessage = (String) msg.obj;
                     recDataString.append(readMessage);
                     int endOfLineIndex = recDataString.indexOf("~");
-                    Log.i(TAG,readMessage);
+                    Log.i(TAG, readMessage);
                     //cuando recibo toda una linea la muestro en el layout
                     if (endOfLineIndex > 0)
                     {
                         String dataInPrint = recDataString.substring(0, endOfLineIndex);
-                        //tvtMsg.setText(readMessage);
 
-                        if (dataInPrint.equals("V")) {
-                            //tvtMsg.setText("VERDE");
-                        }
-
-                        if (dataInPrint.equals("R")) {
-                            //tvtMsg.setText("ROJO");
-                        }
-
-
-                        //recDataString.delete(0, recDataString.length());
                         dataInPrint = " ";
                     }
                     recDataString.delete(0, recDataString.length());      //clear all string data
-
-
-
-                    /*if (readMessage == "V") {
-                        tvtMsg.setText("VERDE");
-                    }
-
-                    if (readMessage == "R") {
-                        tvtMsg.setText("ROJO");
-                    }*/
-
 
                 }
             }
@@ -127,111 +102,87 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         btAdapter = BluetoothAdapter.getDefaultAdapter();
         verifyStateBT();
 
-/*        edtTextOut = findViewById(R.id.edtTextOut);
-        btnSend = findViewById(R.id.btnSend);
-        btnSendDefault = findViewById(R.id.btnSendDefault);
-        btnDisconnect = findViewById(R.id.btnDisconnect);*/
         inst = findViewById(R.id.Instruc);
         enableSmartButton = findViewById(R.id.btnEnableSmartMode);
         disableSmartButton = findViewById(R.id.btnDisableSmartMode);
-        viewSemaphores= findViewById(R.id.GoToLights);
+        viewSemaphores = findViewById(R.id.GoToLights);
         btnCancel = findViewById(R.id.btnCancelar);
         btnCancel.setVisibility(View.INVISIBLE);
         inst.setVisibility(View.INVISIBLE);
-        mode=NO_SHAKE;
+        mode = NO_SHAKE;
 
-        btnCancel.setOnClickListener(new View.OnClickListener() {
+        btnCancel.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v)
+            {
                 enableSmartButton.setVisibility(View.VISIBLE);
                 disableSmartButton.setVisibility(View.VISIBLE);
                 viewSemaphores.setVisibility(View.VISIBLE);
                 btnCancel.setVisibility(View.INVISIBLE);
                 inst.setVisibility(View.INVISIBLE);
 
-                mode=NO_SHAKE;
+                mode = NO_SHAKE;
             }
         });
 
-        viewSemaphores.setOnClickListener(new View.OnClickListener() {
+        viewSemaphores.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v)
+            {
                 Intent intent = new Intent(MainActivity.this, LightActivity.class);
                 intent.putExtra(EXTRA_DEVICE_ADDRESS, address);
                 startActivity(intent);
             }
         });
 
-        enableSmartButton.setOnClickListener(new View.OnClickListener() {
+        enableSmartButton.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v)
+            {
 
                 enableSmartButton.setVisibility(View.INVISIBLE);
                 disableSmartButton.setVisibility(View.INVISIBLE);
                 viewSemaphores.setVisibility(View.INVISIBLE);
                 btnCancel.setVisibility(View.VISIBLE);
                 inst.setVisibility(View.VISIBLE);
-                mode=ENABLE_SMART_MODE;
-                //MyConexionBT.write("S");
+                mode = ENABLE_SMART_MODE;
 
             }
         });
 
-        disableSmartButton.setOnClickListener(new View.OnClickListener() {
+        disableSmartButton.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v)
+            {
 
                 enableSmartButton.setVisibility(View.INVISIBLE);
                 disableSmartButton.setVisibility(View.INVISIBLE);
                 viewSemaphores.setVisibility(View.INVISIBLE);
                 btnCancel.setVisibility(View.VISIBLE);
                 inst.setVisibility(View.VISIBLE);
-                mode=DISABLE_SMART_MODE;
-                //MyConexionBT.write("N");
+                mode = DISABLE_SMART_MODE;
 
             }
         });
-        /*btnSend.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String getData = edtTextOut.getText().toString();
-                //tvtMsg.setText(getData);
-                MyConexionBT.write(getData);
-            }
-        });
 
-        btnSendDefault.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                MyConexionBT.write("V");
-            }
-        });
-
-        btnDisconnect.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (btSocket != null) {
-                    try {
-                        btSocket.close();
-                    } catch (IOException e) {
-                        Toast.makeText(getBaseContext(), "Error", Toast.LENGTH_SHORT).show();
-                        ;
-                    }
-                }
-                finish();
-            }
-        });*/
     }
 
-    private BluetoothSocket createBluetoothSocket(BluetoothDevice device) throws IOException {
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
+    private BluetoothSocket createBluetoothSocket(BluetoothDevice device) throws IOException
+    {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED)
+        {
         }
         return device.createRfcommSocketToServiceRecord(BTMODULEUUID);
         //creates secure outgoing connecetion with BT device using UUID
     }
 
     @Override
-    public void onResume() {
+    public void onResume()
+    {
         super.onResume();
 
         Intent intent = getIntent();
@@ -241,32 +192,29 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
         sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
 
-        try {
+        try
+        {
             btSocket = createBluetoothSocket(device);
-        } catch (IOException e) {
+        } catch (IOException e)
+        {
             Toast.makeText(getBaseContext(), "La creacción del Socket fallo", Toast.LENGTH_LONG).show();
         }
         // Establece la conexión con el socket Bluetooth.
-        try {
-            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
-                // TODO: Consider calling
-                //    ActivityCompat#requestPermissions
-                // here to request the missing permissions, and then overriding
-                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                //                                          int[] grantResults)
-                // to handle the case where the user grants the permission. See the documentation
-                // for ActivityCompat#requestPermissions for more details.
-                btSocket.connect();
-                //Toast.makeText(getBaseContext(), "CONEXION EXITOSA", Toast.LENGTH_SHORT).show();
+        try
+        {
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED)
+            {
 
-                //return;
+                btSocket.connect();
             }
 
-            //btSocket.connect();
-        } catch (IOException e) {
-            try {
+        } catch (IOException e)
+        {
+            try
+            {
                 btSocket.close();
-            } catch (IOException e2) {
+            } catch (IOException e2)
+            {
             }
         }
         MyConexionBT = new ConnectedThread(btSocket);
@@ -274,36 +222,37 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     }
 
     @Override
-    public void onPause() {
+    public void onPause()
+    {
         super.onPause();
         sensorManager.unregisterListener(this);
-        try { // Cuando se sale de la aplicación esta parte permite que no se deje abierto el socket
+        try
+        { // Cuando se sale de la aplicación esta parte permite que no se deje abierto el socket
             btSocket.close();
-        } catch (IOException e2) {
+        } catch (IOException e2)
+        {
         }
     }
 
     //Comprueba que el dispositivo Bluetooth
     //está disponible y solicita que se active si está desactivado
     @SuppressWarnings("deprecation")
-    private void verifyStateBT() {
+    private void verifyStateBT()
+    {
 
-        if (btAdapter == null) {
+        if (btAdapter == null)
+        {
             Toast.makeText(getBaseContext(), "El dispositivo no soporta bluetooth", Toast.LENGTH_LONG).show();
-        } else {
-            if (btAdapter.isEnabled()) {
-            } else {
+        } else
+        {
+            if (btAdapter.isEnabled())
+            {
+            } else
+            {
                 Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
-                    // TODO: Consider calling
-                    //    ActivityCompat#requestPermissions
-                    // here to request the missing permissions, and then overriding
-                    //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                    //                                          int[] grantResults)
-                    // to handle the case where the user grants the permission. See the documentation
-                    // for ActivityCompat#requestPermissions for more details.
+                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED)
+                {
                     startActivityForResult(enableBtIntent, 1);
-                    //return;
                 }
 
             }
@@ -311,8 +260,10 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     }
 
     @Override
-    public void onSensorChanged(SensorEvent event) {
-        if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
+    public void onSensorChanged(SensorEvent event)
+    {
+        if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER)
+        {
             float x = event.values[0];
             float y = event.values[1];
             float z = event.values[2];
@@ -321,11 +272,14 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             double acceleration = Math.sqrt(x * x + y * y + z * z);
 
             // Comprobar si se ha detectado un shake basado en el umbral de sacudida
-            if (acceleration > accelerationThreshold) {
-                if(mode == ENABLE_SMART_MODE){
+            if (acceleration > accelerationThreshold)
+            {
+                if (mode == ENABLE_SMART_MODE)
+                {
                     MyConexionBT.write("S");
                 }
-                if(mode == DISABLE_SMART_MODE){
+                if (mode == DISABLE_SMART_MODE)
+                {
                     MyConexionBT.write("N");
                 }
             }
@@ -333,8 +287,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     }
 
     @Override
-    public void onAccuracyChanged(Sensor sensor, int i) {
-//nati
+    public void onAccuracyChanged(Sensor sensor, int i)
+    {
     }
 
     //Crea la clase que permite crear el evento de conexion
@@ -351,7 +305,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             {
                 tmpIn = socket.getInputStream();
                 tmpOut = socket.getOutputStream();
-            } catch (IOException e) { }
+            } catch (IOException e)
+            {
+            }
             mmInStream = tmpIn;
             mmOutStream = tmpOut;
         }
@@ -362,11 +318,10 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             byte[] buffer = new byte[256];
             int bytes;
             // Se mantiene en modo escucha para determinar el ingreso de datos
-            while (true) {
-                try {
-                    /*mmInStream.read(byte_in);
-                    char ch = (char) byte_in[0];
-                    bluetoothIn.obtainMessage(handlerState, ch).sendToTarget();*/
+            while (true)
+            {
+                try
+                {
 
                     //se leen los datos del Bluethoot
                     bytes = mmInStream.read(buffer);
@@ -377,7 +332,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                     bluetoothIn.obtainMessage(handlerState, bytes, -1, readMessage).sendToTarget();
 
 
-                } catch (IOException e) {
+                } catch (IOException e)
+                {
                     break;
                 }
             }
@@ -386,10 +342,10 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         //Envio de trama
         public void write(String input)
         {
-            try {
+            try
+            {
                 mmOutStream.write(input.getBytes());
-            }
-            catch (IOException e)
+            } catch (IOException e)
             {
                 //si no es posible enviar datos se cierra la conexión
                 Toast.makeText(getBaseContext(), "La Conexión fallo", Toast.LENGTH_LONG).show();

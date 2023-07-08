@@ -60,7 +60,6 @@ public class LightActivity extends AppCompatActivity {
                     char MyCar = (char) msg.obj;
 
                     if (MyCar == 'V') { //Sem a en verde
-                       // tvtMsg.setText("VERDE");
                         statusSensorA.setText("SI");
                         statusSensorB.setText("NO");
                         trafficLight_A.setImageResource(lights.get("V"));
@@ -68,7 +67,6 @@ public class LightActivity extends AppCompatActivity {
                     }
 
                     if (MyCar == 'R') {
-                        //tvtMsg.setText("ROJO");
                         statusSensorA.setText("NO");
                         statusSensorB.setText("SI");
                         trafficLight_A.setImageResource(lights.get("R"));
@@ -92,15 +90,6 @@ public class LightActivity extends AppCompatActivity {
         lights.put("R",R.drawable.red);
 
         Button backMenu = findViewById(R.id.BackMenu);
-       /* backMenu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.i(TAG, "ENVIO 4 A ARDUINO");
-                Intent intent = new Intent(LightActivity.this, MenuActivity.class);
-                startActivity(intent);
-            }
-        });*/
-        backMenu = findViewById(R.id.BackMenu);
 
         backMenu.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -110,27 +99,6 @@ public class LightActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
-
-        ///
-        /*String estadosPalno = "R.Y.T.F";
-        String[] estados = estadosPalno.split("\\.");
-
-        TextView statusSensorA = findViewById(R.id.statusSensorA);
-        if (estados[2].equals("F"))
-            statusSensorA.setText("NO");
-        else
-            statusSensorA.setText("SI");
-
-        TextView statusSensorB = findViewById(R.id.statusSensorB);
-        if (estados[3].equals("F"))
-            statusSensorB.setText("NO");
-        else
-            statusSensorB.setText("SI");
-
-        trafficLight_A.setImageResource(lights.get(estados[0]));
-        trafficLight_B.setImageResource(lights.get(estados[1]));*/
-        ///
 
     }
 
@@ -150,20 +118,9 @@ public class LightActivity extends AppCompatActivity {
         // Establece la conexión con el socket Bluetooth.
         try {
             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
-                // TODO: Consider calling
-                //    ActivityCompat#requestPermissions
-                // here to request the missing permissions, and then overriding
-                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                //                                          int[] grantResults)
-                // to handle the case where the user grants the permission. See the documentation
-                // for ActivityCompat#requestPermissions for more details.
                 btSocket.connect();
-                //Toast.makeText(getBaseContext(), "CONEXION EXITOSA", Toast.LENGTH_SHORT).show();
-
-                //return;
             }
 
-            //btSocket.connect();
         } catch (IOException e) {
             try {
                 btSocket.close();
@@ -202,15 +159,8 @@ public class LightActivity extends AppCompatActivity {
             } else {
                 Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
                 if (ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
-                    // TODO: Consider calling
-                    //    ActivityCompat#requestPermissions
-                    // here to request the missing permissions, and then overriding
-                    //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                    //                                          int[] grantResults)
-                    // to handle the case where the user grants the permission. See the documentation
-                    // for ActivityCompat#requestPermissions for more details.
+
                     startActivityForResult(enableBtIntent, 1);
-                    //return;
                 }
 
             }
